@@ -1,0 +1,1116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Mediora - Your First Stop before Hospital</title>
+
+  <!-- Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="c:\Users\Administrator\Downloads\ChatGPT Image Oct 30, 2025, 12_37_09 PM.png" type="image/png"> <!-- Place your favicon file here -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+:root {
+  --deep: #052b4a;      /* deep clinical blue */
+  --accent: #c59a2b;    /* gold Sparks */
+  --muted: #616a75;
+  --bg: #f5fbff;
+  --card: #ffffff;
+  --glass: rgba(5,43,74,0.06);
+}
+
+/* Global styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Poppins', system-ui, Arial, sans-serif;
+  background: linear-gradient(180deg, var(--bg), #063151);
+  color: #071428;
+  line-height: 1.5;
+}
+
+/* Header */
+header {
+  background: linear-gradient(90deg, var(--deep), #0a4165);
+  color: #fff;
+  padding: 18px 16px;
+  border-bottom: 4px solid rgba(0,0,0,0.03);
+}
+header .container {
+  max-width: 100%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+header h1 {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+header p {
+  opacity: 0.95;
+  font-size: 0.95rem;
+}
+header .brand-sub {
+  margin-left: auto;
+  font-size: 0.9rem;
+  color: #fff;
+  opacity: 0.95;
+}
+
+/* Layout container */
+.container {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Main layout grid */
+.layout {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+@media(min-width: 768px) {
+  .layout {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+
+/* Cards */
+.card {
+  background: var(--card);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px var(--glass);
+  padding: 16px;
+  width: 100%;
+}
+
+/* Headings */
+h2 { margin-bottom: 8px; }
+
+/* Controls */
+.controls {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.small-input {
+  padding: 8px;
+  border-radius: 10px;
+  border: 1px solid #e6eef4;
+  flex: 1 1 auto;
+}
+
+/* Symptom list */
+.symptom-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  max-height: 520px;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+@media(min-width: 560px) {
+  .symptom-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+.symptom-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  border-radius: 10px;
+}
+
+/* Buttons */
+button {
+  background: var(--deep);
+  color: #fff;
+  border: none;
+  padding: 10px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 6px 18px rgba(7,20,40,0.06);
+  flex-shrink: 0;
+}
+button.secondary {
+  background: transparent;
+  color: var(--deep);
+  border: 2px solid var(--deep);
+}
+
+/* Pills */
+.pill {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(196,154,43,0.12);
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* Results */
+.main-disease {
+  border-left: 6px solid var(--accent);
+  padding: 14px;
+  border-radius: 10px;
+  background: #fbfbfc;
+  margin-bottom: 14px;
+}
+.probable {
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #e7f3fb;
+  margin-bottom: 10px;
+  background: #fff;
+}
+.less-likely {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin-top: 8px;
+}
+.muted { color: var(--muted); }
+.followup {
+  background: #fffaf6;
+  border: 1px solid #fff0e0;
+  padding: 12px;
+  border-radius: 10px;
+  margin-top: 12px;
+}
+
+/* Accordion */
+.accordion {
+  border-radius: 8px;
+  border: 1px solid #eef6fb;
+  margin-bottom: 8px;
+  overflow: hidden;
+}
+.acc-head {
+  background: #f7fbff;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+.acc-body {
+  display: none;
+  padding: 10px;
+  background: #fff;
+}
+.acc-body.active { display: block; }
+
+/* Notes */
+.small-note {
+  font-size: 0.92rem;
+  color: var(--muted);
+}
+
+
+
+/* Animations */
+.fade-in { animation: fadeIn 0.28s ease both; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:none} }
+
+/* Printing */
+@media print {
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  header { display: block; }
+  body { background: #fff; }
+  header, .card { box-shadow: none; }
+  button, .controls, .small-input { display: none; }
+}
+
+/* Splashscreen */
+#splashScreen {
+  position: fixed;
+  inset: 0;
+  background: var(--deep);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  color: #fff;
+  padding: 1rem;
+  text-align: center;
+}
+
+.splash-top-text,
+.splash-bottom-text {
+  font-size: 1.2rem;
+  margin: 10px 0;
+  opacity: 0;
+  text-align: center;
+}
+
+.splash-logo img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 20px 0;
+}
+
+.loading-bar {
+  position: relative;
+  width: 80%;
+  max-width: 300px;
+  height: 12px;
+  background: rgba(255,255,255,0.5);
+  border-radius: 9px;
+  margin: 12px auto;
+  overflow: hidden;
+}
+.loading-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #2d7894, #7b1414);
+  border-radius: 9px;
+  transition: width 0.1s linear;
+  position: relative;
+  z-index: 1;
+}
+.loading-percent {
+  position: absolute;
+  top: -26px;
+  left: 0;
+  font-weight: 700;
+  color: #fff;
+  z-index: 2;
+  transition: left 0.1s linear;
+  text-shadow: 0 0 4px rgba(0,0,0,0.6);
+}
+
+/* Header fade-in after splash */
+#mainHeader { animation: fadeIn 1s ease forwards; }
+
+  </style>
+</head>
+<body>
+ 
+
+
+<!-- Header -->
+<!-- Splash Screen -->
+<div id="splashScreen">
+  <div class="splash-top-text">Sparks Network presents</div>
+
+  <div class="splash-logo">
+    <img src="c:\Users\Administrator\Downloads\ChatGPT Image Oct 30, 2025, 12_37_09 PM.png" alt="Mediora Logo">
+  </div>
+
+  <div class="loading-bar">
+    <div class="loading-bar-fill"></div>
+    <span class="loading-percent">0%</span>
+  </div>
+
+  <div class="loading-text">Initializing...</div>
+  <div class="splash-bottom-text">An upcoming diagnostic software</div>
+</div>
+<!-- Main Header -->
+<header id="mainHeader">
+  <div class="container">
+    <div style="display:flex;gap:12px;align-items:center">
+     
+      <div>
+        <div>
+         <div class="splash-logo" >
+    <img src="c:\Users\Administrator\Downloads\ChatGPT Image Oct 30, 2025, 12_37_09 PM.png" alt="Mediora Logo">
+    
+  </div>
+        <h1>Mediora</h1>
+        <p style="margin:0;font-size:0.95rem;opacity:0.95">
+          Deep Diagnostic Intelligence — (Sparks Network)
+        </p>
+      </div>
+      </div>
+    </div>
+    <div class="brand-sub">By Sparks Network</div>
+  </div>
+</header>
+
+
+
+<!-- Main -->
+<main class="container">
+  <div class="layout">
+
+    <!-- LEFT: Inputs -->
+    <section class="card fade-in">
+      <h2>1. Patient Details & Symptoms</h2>
+
+      <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap">
+        <label style="font-weight:700">Gender:</label>
+        <select id="genderSelect" class="small-input">
+          <option value="unspecified">Unspecified / Other</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+
+        <label style="font-weight:700;margin-left:8px">Age Group:</label>
+        <select id="ageSelect" class="small-input">
+          <option value="adult">Adult</option>
+          <option value="child">Child</option>
+        </select>
+
+        <div style="margin-left:auto;font-size:0.9rem;color:var(--muted)">Clinical, age-aware, gender-aware analysis</div>
+      </div>
+
+      <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px">
+        <input id="symSearch" type="search" placeholder="Search symptoms (A→Z) or type to filter" class="small-input" style="flex:1" />
+        <button id="clearSearch" class="secondary">Clear</button>
+      </div>
+
+      <div id="symptomList" class="symptom-list" aria-live="polite"></div>
+
+      <div class="controls" style="margin-top:12px">
+        <button id="analyzeBtn">Analyze Symptoms (0)</button>
+        <button id="clearBtn" class="secondary">Clear Selection</button>
+        <button id="saveBtn" class="secondary">Save Last</button>
+      </div>
+
+      <div style="margin-top:12px">
+        <div class="small-note"><strong>Dataset:</strong> 150 clinical symptoms (A→Z). Diseases: ~60 validated examples for demo. Replace/extend later in the script.</div>
+      </div>
+    </section>
+
+    <!-- RIGHT: Results -->
+    <aside class="card fade-in">
+      <h2>2. Results & Deep Analysis</h2>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap">
+        <div class="muted">Main / Probable (≥50% disease symptoms) / Less likely</div>
+        <div style="display:flex;gap:8px">
+          <button id="downloadReport" class="secondary">Download Report (PDF)</button>
+      
+        </div>
+      </div>
+
+      <div id="resultsArea" style="min-height:160px"></div>
+      <div id="analyzeFurtherContainer" style="margin-top:12px"></div>
+      <div id="followupArea"></div>
+      <div id="finalBox" style="margin-top:12px"></div>
+
+      <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+        <button id="downloadResult" class="secondary">Download Last Analysis (JSON)</button>
+        <button id="showSymptomsList" class="secondary">View Symptoms List</button>
+      </div>
+    </aside>
+
+  </div>
+
+  <div style="text-align:center;margin-top:18px;color:white;">Mediora v1.0 — Deep Diagnostic Intelligence — By Sparks Networks © 2025</div>
+</main>
+  <script>
+
+document.addEventListener("DOMContentLoaded", () => {
+  const splash = document.getElementById("splashScreen");
+  const header = document.getElementById("mainHeader");
+  const bar = document.querySelector(".loading-bar-fill");
+  const percentText = document.querySelector(".loading-percent");
+  const messageText = document.querySelector(".loading-text");
+  const topText = document.querySelector(".splash-top-text");
+  const bottomText = document.querySelector(".splash-bottom-text");
+
+  const messages = [
+    "Preparing clinical database...",
+    "Uploading disease ...",
+    "Scanning symptom algorithms...",
+    "Configuring diagnostic ...",
+    "Optimizing interface...",
+    "Finalizing setup..."
+  ];
+
+  const totalDuration = 18000; // 18 sec
+  const pauseStart = 10000;    // 10s, reach 98%
+  const pauseEnd = 14000;      // 14s, stay at 98%
+  const startTime = Date.now();
+  let msgIndex = 0;
+  let displayedPercent = 0; // for smooth increment
+
+  // Animate top/bottom text
+  [topText, bottomText].forEach((el, i) => {
+    el.style.opacity = 0;
+    el.style.transform = "translateY(10px)";
+    setTimeout(() => {
+      el.style.transition = "opacity 1s, transform 1s";
+      el.style.opacity = 1;
+      el.style.transform = "translateY(0)";
+    }, i * 500);
+  });
+
+  function updateProgress() {
+    const elapsed = Date.now() - startTime;
+    let targetPercent;
+
+    if (elapsed < pauseStart) {
+      targetPercent = Math.floor((elapsed / pauseStart) * 98);
+    } else if (elapsed < pauseEnd) {
+      targetPercent = 98;
+    } else if (elapsed < totalDuration) {
+      targetPercent = 98 + Math.floor(((elapsed - pauseEnd) / (totalDuration - pauseEnd)) * 2);
+    } else {
+      targetPercent = 100;
+    }
+
+    // Increment smoothly
+    if (displayedPercent < targetPercent) displayedPercent++;
+    percentText.textContent = displayedPercent + "%";
+    bar.style.width = displayedPercent + "%";
+    percentText.style.left = `calc(${displayedPercent}% - 20px)`; // center text
+
+    // Rotate messages every 3 sec
+    const messageIndex = Math.floor(elapsed / 3000);
+    if (messageIndex > msgIndex && msgIndex < messages.length) {
+      messageText.textContent = messages[msgIndex];
+      msgIndex++;
+    }
+
+    if (elapsed < totalDuration + 500) {
+      requestAnimationFrame(updateProgress);
+    } else {
+      messageText.textContent = "Getting you started...";
+      splash.style.transition = "opacity 1s";
+      splash.style.opacity = 0;
+      setTimeout(() => {
+        splash.style.display = "none";
+        header.style.display = "block";
+      }, 1000);
+    }
+  }
+
+  header.style.display = "none";
+  requestAnimationFrame(updateProgress);
+});
+
+  // Disable right-click
+  document.addEventListener('contextmenu', function(e){
+    e.preventDefault();
+    alert("Right-click disabled!"); 
+  });
+
+  // Disable specific keys (F12, Ctrl+Shift+I, Ctrl+U, Ctrl+Shift+J)
+  document.addEventListener('keydown', function(e) {
+    // F12
+    if(e.keyCode === 123){
+      e.preventDefault();
+      alert("Inspecting is disabled!");
+    }
+    // Ctrl+Shift+I or Ctrl+Shift+J
+    if(e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)){
+      e.preventDefault();
+      alert("Inspecting is disabled!");
+    }
+    // Ctrl+U
+    if(e.ctrlKey && e.keyCode === 85){
+      e.preventDefault();
+      alert("Viewing source is disabled!");
+    }
+  });
+
+  // Optional: prevent selection / copying
+  document.addEventListener('selectstart', function(e){ e.preventDefault(); });
+  document.addEventListener('copy', function(e){ e.preventDefault(); });
+
+    /*****************************************************************
+     * HealthMate v4.7 — Deep Diagnostic Intelligence
+     * - Multi-disease follow-up (top 5 probable)
+     * - refined scoring across multiple diseases simultaneously
+     * - uses demo dataset (≈60 diseases + 150 symptoms)
+     * - removed Doctor's Remarks (user-focused app)
+     * - better print color adjust (enable "Background graphics" when printing)
+     *****************************************************************/
+
+    // -------------------------------
+    // Master Symptoms (150)
+    // -------------------------------
+    const symptoms = [
+      "abdominal bloating","abdominal cramps","abdominal pain","acid reflux","acne","anxiety","arm pain","back pain","bleeding after intercourse","bleeding gums",
+      "blood in sputum","blood in stool","blood in urine","blurred vision","body aches","breathlessness","breathlessness on exertion","breast lump","breast pain","breast tenderness",
+      "chest pain","chills","choking sensation","chronic cough","confusion","constipation","cough","cramping","dark urine","decreased urine output",
+      "dehydration","delayed healing","delirium","depressed mood","diarrhea","difficulty breathing","difficulty passing urine","difficulty swallowing","dizziness","double vision",
+      "dry mouth","ear pain","eye pain","eye redness","fatigue","fever","frequent urination","giddiness","gurgling bowel sounds","hair loss",
+      "headache","hearing loss","heart palpitations","heavy menstrual bleeding","hiccups","hot flashes","hunger","icterus (jaundice)","inability to speak","indigestion",
+      "inability to pass stool","incontinence","increased thirst","insomnia","irritability","itching","joint pain","joint swelling","jaundice","leg swelling",
+      "loss of appetite","loss of consciousness","loss of smell","loss of taste","lower abdominal pain","memory loss","menstrual irregularity","menstrual pain","mild fever","mood swings",
+      "muscle cramps","muscle pain","nausea","neck stiffness","night sweats","nocturia","nosebleed","numbness","obvious bleeding","oral thrush",
+      "optic pain","painful urination","pale skin","paralysis","persistent vomiting","phlegm","pregnancy delay","prolonged cough","prolonged fever","productive cough",
+      "rapid heartbeat","rash","red eye","reduced fetal movements","respiratory distress","retrosternal pain","runny nose","seizures","sensitivity to light","shortness of breath",
+      "shoulder pain","sinus pain","sore throat","stomach distension","stomach pain","sudden weakness","swollen abdomen","swollen glands","swollen joints","swollen limbs",
+      "tender breast","testicular pain","thirst","tightness in chest","tingling","tinnitus","tooth pain","trouble breathing","trouble sleeping","trouble speaking",
+      "urinary urgency","vaginal discharge","vomiting","vision loss","weakness","weight gain","weight loss","wheezing","white discharge","wound infection"
+    ];
+
+    // -------------------------------
+    // Demo diseases (≈60) — use symptoms from master list
+    // -------------------------------
+    const diseases = [
+      { name: "Malaria", symptoms:["fever","chills","headache","muscle pain","fatigue","nausea","vomiting","night sweats"], gender:"any", age:"any", prevalence:"high", advice:"Get Malaria rapid test (RDT) or microscopy. Seek antimalarial treatment if positive.", followups:[{q:"Have you been bitten by mosquitoes recently?", key:"mal_mosq"},{q:"Have you had a very high fever with chills?", key:"mal_highfev"}] },
+      { name: "Typhoid fever", symptoms:["fever","headache","abdominal pain","diarrhea","constipation","loss of appetite","nausea"], gender:"any", age:"any", prevalence:"high", advice:"Get culture tests and start appropriate antibiotics.", followups:[{q:"Has your fever lasted more than 3 days?", key:"tyf_longfev"},{q:"Have you had recent unsafe food or water intake?", key:"tyf_water"}] },
+      { name: "Cholera", symptoms:["diarrhea","dehydration","severe thirst","vomiting","abdominal cramps","weakness"], gender:"any", age:"any", prevalence:"medium", advice:"Immediate rehydration and urgent care required.", followups:[{q:"Is the diarrhea very watery and sudden onset?", key:"chol_wat"}] },
+      { name: "Dengue Fever", symptoms:["fever","headache","joint pain","muscle pain","rash","bleeding gums","nausea"], gender:"any", age:"any", prevalence:"medium", advice:"Avoid NSAIDs; monitor clinically and seek help for warning signs.", followups:[{q:"Do you have severe joint or bone pain?", key:"den_joint"},{q:"Any bleeding gums or nosebleeds?", key:"den_bleed"}] },
+      { name: "Dengue Hemorrhagic Fever", symptoms:["fever","bleeding gums","nosebleed","abdominal pain","persistent vomiting","decreased urine output"], gender:"any", age:"any", prevalence:"low", advice:"Emergency hospital care required.", followups:[{q:"Is there persistent vomiting or abdominal pain?", key:"dhf_vom"}] },
+
+      { name: "Pneumonia", symptoms:["fever","cough","productive cough","shortness of breath","chest pain","fatigue","night sweats"], gender:"any", age:"any", prevalence:"high", advice:"Seek medical attention; antibiotics may be required.", followups:[{q:"Is breathing difficult or rapid?", key:"pneum_breath"}] },
+      { name: "TB (pulmonary)", symptoms:["prolonged cough","blood in sputum","weight loss","fever","night sweats","loss of appetite"], gender:"any", age:"any", prevalence:"high", advice:"Get a TB test and start treatment if positive.", followups:[{q:"Have you had cough longer than 2 weeks?", key:"tb_cough"}] },
+      { name: "COVID-19", symptoms:["fever","dry cough","loss of smell","loss of taste","shortness of breath","fatigue","sore throat"], gender:"any", age:"any", prevalence:"medium", advice:"Test if symptomatic, isolate and seek care if severe.", followups:[{q:"Have you lost smell or taste recently?", key:"cov_loss"}] },
+      { name: "Asthma (exacerbation)", symptoms:["wheezing","shortness of breath","chest tightness","cough","trouble breathing","nighttime symptoms"], gender:"any", age:"any", prevalence:"medium", advice:"Use inhaler as prescribed and seek urgent care for severe attacks.", followups:[{q:"Do you wheeze or have chest tightness with activity?", key:"asma_wheeze"}] },
+      { name: "COPD (exacerbation)", symptoms:["chronic cough","productive cough","shortness of breath","wheezing","fatigue"], gender:"any", age:"adult", prevalence:"medium", advice:"Clinic review; smoking cessation and inhalers.", followups:[{q:"Are you a long-term smoker?", key:"copd_smoke"}] },
+
+      { name: "Urinary Tract Infection (UTI)", symptoms:["painful urination","urinary urgency","frequent urination","lower abdominal pain","fever","blood in urine"], gender:"any", age:"any", prevalence:"high", advice:"See clinician; antibiotics usually needed.", followups:[{q:"Is there burning when you urinate?", key:"uti_burn"}] },
+      { name: "Pyelonephritis", symptoms:["fever","flank pain","nausea","vomiting","painful urination","blood in urine"], gender:"any", age:"any", prevalence:"medium", advice:"Clinical assessment and systemic antibiotics required.", followups:[{q:"Do you have pain in your flank/side?", key:"pyel_flank"}] },
+      { name: "Kidney Stones (renal colic)", symptoms:["severe flank pain","blood in urine","nausea","vomiting","restlessness","sweating"], gender:"any", age:"adult", prevalence:"medium", advice:"Pain control and imaging; urology review.", followups:[{q:"Is the pain sudden and severe in the flank?", key:"ks_pain"}] },
+      { name: "Appendicitis", symptoms:["abdominal pain","nausea","vomiting","fever","loss of appetite","lower abdominal pain"], gender:"any", age:"any", prevalence:"medium", advice:"Surgical assessment urgently required.", followups:[{q:"Is the pain moving to the lower right abdomen?", key:"app_rlq"}] },
+      { name: "Appendicitis (female variant)", symptoms:["lower abdominal pain","nausea","vomiting","fever","loss of appetite"], gender:"female", age:"any", prevalence:"medium", advice:"Consider gynecologic causes and surgical assessment.", followups:[] },
+
+      { name: "Peptic Ulcer Disease", symptoms:["acid reflux","indigestion","stomach pain","blood in stool","nausea","loss of appetite"], gender:"any", age:"adult", prevalence:"medium", advice:"Test for H. pylori and treat accordingly.", followups:[{q:"Do you have burning epigastric pain improved by food?", key:"pud_burn"}] },
+      { name: "Gastritis", symptoms:["indigestion","nausea","vomiting","abdominal pain","loss of appetite","abdominal bloating"], gender:"any", age:"adult", prevalence:"high", advice:"Avoid irritants and seek clinic advice.", followups:[] },
+      { name: "Gastroenteritis", symptoms:["diarrhea","vomiting","stomach cramps","nausea","dehydration","fever"], gender:"any", age:"any", prevalence:"high", advice:"Oral rehydration and clinic care if severe.", followups:[] },
+      { name: "Food Poisoning", symptoms:["vomiting","diarrhea","stomach pain","fever","dehydration"], gender:"any", age:"any", prevalence:"medium", advice:"Hydration and clinic for severe cases.", followups:[] },
+      { name: "IBS (Irritable Bowel Syndrome)", symptoms:["abdominal cramps","bloating","constipation","diarrhea","altered bowel habits"], gender:"any", age:"adult", prevalence:"medium", advice:"Dietary changes and clinic review.", followups:[] },
+
+      { name: "Hepatitis A", symptoms:["fever","icterus (jaundice)","dark urine","nausea","loss of appetite","abdominal pain"], gender:"any", age:"any", prevalence:"low", advice:"Supportive care and hydration.", followups:[] },
+      { name: "Hepatitis B", symptoms:["icterus (jaundice)","fatigue","dark urine","abdominal pain","loss of appetite"], gender:"any", age:"any", prevalence:"medium", advice:"Testing and follow-up recommended.", followups:[] },
+      { name: "Hepatitis C", symptoms:["fatigue","icterus (jaundice)","dark urine","loss of appetite","abdominal pain"], gender:"any", age:"adult", prevalence:"low", advice:"Test and specialist follow-up.", followups:[] },
+
+      { name: "Migraine", symptoms:["headache","nausea","sensitivity to light","blurred vision","vomiting"], gender:"any", age:"any", prevalence:"medium", advice:"Avoid triggers; use migraine meds as directed.", followups:[{q:"Do lights worsen your headache?", key:"mig_phot"}] },
+      { name: "Tension Headache", symptoms:["headache","neck stiffness","muscle pain","trouble sleeping","irritability"], gender:"any", age:"adult", prevalence:"high", advice:"Stress management and analgesics.", followups:[] },
+      { name: "Meningitis", symptoms:["fever","neck stiffness","headache","sensitivity to light","seizures","confusion"], gender:"any", age:"any", prevalence:"low", advice:"Medical emergency — urgent hospital care.", followups:[{q:"Do you have neck stiffness and severe headache?", key:"men_neck"}] },
+      { name: "Sepsis", symptoms:["fever","confusion","rapid heartbeat","rapid breathing","low blood pressure","reduced urine output"], gender:"any", age:"any", prevalence:"low", advice:"Emergency—seek urgent hospital care.", followups:[] },
+
+      { name: "Stroke (suspected)", symptoms:["sudden weakness","sudden speech difficulty","sudden vision loss","sudden confusion","sudden dizziness"], gender:"any", age:"adult", prevalence:"medium", advice:"Emergency—get to hospital immediately.", followups:[] },
+      { name: "Myocardial Infarction (suspected)", symptoms:["chest pain","radiating arm pain","sweating","nausea","shortness of breath","dizziness"], gender:"any", age:"adult", prevalence:"medium", advice:"Emergency—urgent cardiac care required.", followups:[] },
+      { name: "Pericarditis", symptoms:["chest pain","breathlessness","retrosternal pain","fever"], gender:"any", age:"adult", prevalence:"low", advice:"ECG and cardiology review may be needed.", followups:[] },
+
+      { name: "Diabetes Mellitus Type 1", symptoms:["frequent urination","increased thirst","weight loss","fatigue","blurred vision"], gender:"any", age:"any", prevalence:"medium", advice:"Blood glucose testing and specialist care.", followups:[] },
+      { name: "Diabetes Mellitus Type 2", symptoms:["frequent urination","increased thirst","fatigue","blurred vision","slow wound healing"], gender:"any", age:"adult", prevalence:"high", advice:"Lifestyle and clinic follow-up.", followups:[] },
+      { name: "Diabetic Ketoacidosis (DKA)", symptoms:["persistent vomiting","abdominal pain","confusion","rapid breathing","dehydration"], gender:"any", age:"any", prevalence:"low", advice:"Emergency treatment required.", followups:[] },
+
+      { name: "Hypoglycemia", symptoms:["sweating","confusion","dizziness","shaking","loss of consciousness"], gender:"any", age:"any", prevalence:"medium", advice:"Give sugar and seek care.", followups:[] },
+
+      { name: "Anemia (iron deficiency)", symptoms:["pale skin","fatigue","dizziness","shortness of breath","rapid heartbeat"], gender:"any", age:"any", prevalence:"high", advice:"Check Hb and iron indices.", followups:[] },
+      { name: "Sickle Cell Disease (crisis)", symptoms:["painful swelling","fever","fatigue","dizziness","shortness of breath"], gender:"any", age:"any", prevalence:"medium", advice:"Pain control and hospital review for crisis.", followups:[] },
+
+      { name: "UTI in Pregnancy", symptoms:["painful urination","frequent urination","abdominal cramps","fever"], gender:"female", age:"adult", prevalence:"medium", advice:"Treat in antenatal clinic; antibiotics safe in pregnancy.", followups:[] },
+      { name: "Ectopic Pregnancy (suspected)", symptoms:["abdominal pain","vaginal discharge","dizziness","fainting","lower abdominal pain"], gender:"female", age:"adult", prevalence:"low", advice:"Emergency—seek immediate care.", followups:[] },
+      { name: "Pelvic Inflammatory Disease (PID)", symptoms:["abdominal pain","fever","abnormal discharge","pain during sex","lower abdominal pain"], gender:"female", age:"adult", prevalence:"medium", advice:"Seek clinic for antibiotics.", followups:[] },
+
+      { name: "Eczema (Atopic Dermatitis)", symptoms:["rash","itching","dry skin","delayed healing"], gender:"any", age:"any", prevalence:"high", advice:"Moisturize and topical therapy.", followups:[] },
+      { name: "Cellulitis", symptoms:["fever","redness","wound infection","swollen limbs","pain"], gender:"any", age:"any", prevalence:"medium", advice:"Antibiotics and clinic review.", followups:[] },
+      { name: "Ringworm (tinea corporis)", symptoms:["rash","itching","delayed healing"], gender:"any", age:"any", prevalence:"high", advice:"Topical antifungal medication.", followups:[] },
+      { name: "Scabies", symptoms:["itching","rash","delayed healing"], gender:"any", age:"any", prevalence:"medium", advice:"Topical scabicide and household measures.", followups:[] },
+
+      { name: "Conjunctivitis", symptoms:["red eye","eye pain","runny nose","sensitivity to light"], gender:"any", age:"any", prevalence:"high", advice:"Eye hygiene and clinic advice.", followups:[] },
+      { name: "Otitis Media", symptoms:["ear pain","fever","ear discharge","difficulty hearing"], gender:"any", age:"child", prevalence:"high", advice:"Ear exam and antibiotics if bacterial.", followups:[] },
+      { name: "Otitis Externa", symptoms:["ear pain","ear discharge","trouble hearing"], gender:"any", age:"any", prevalence:"medium", advice:"Topical drops and clinic review.", followups:[] },
+
+      { name: "Dental Abscess", symptoms:["tooth pain","fever","swollen glands","trouble breathing"], gender:"any", age:"any", prevalence:"medium", advice:"Dental review; drainage/ antibiotics.", followups:[] },
+
+      { name: "Depression", symptoms:["depressed mood","loss of interest","fatigue","sleep disturbance","loss of appetite"], gender:"any", age:"any", prevalence:"high", advice:"Counseling and clinical support.", followups:[] },
+      { name: "Anxiety Disorder", symptoms:["excessive worry","restlessness","fatigue","insomnia","irritability"], gender:"any", age:"any", prevalence:"high", advice:"Therapy and possible medication.", followups:[] },
+      { name: "Epilepsy", symptoms:["seizures","loss of consciousness","confusion after episode"], gender:"any", age:"any", prevalence:"medium", advice:"Neurology review and EEG/ medication.", followups:[] },
+
+      { name: "Heat Exhaustion", symptoms:["dizziness","heavy sweating","nausea","weakness","rapid heartbeat"], gender:"any", age:"any", prevalence:"medium", advice:"Cool down and hydrate.", followups:[] },
+      { name: "Anaphylaxis", symptoms:["swelling","shortness of breath","drop in blood pressure","hives","rapid heartbeat"], gender:"any", age:"any", prevalence:"low", advice:"Emergency — adrenaline and urgent care.", followups:[] },
+
+      { name: "Fracture (suspected)", symptoms:["pain","swollen limbs","deformity","wound infection"], gender:"any", age:"any", prevalence:"medium", advice:"Immobilize and get x-ray.", followups:[] },
+      { name: "Skin Abscess", symptoms:["wound infection","fever","redness","tenderness"], gender:"any", age:"any", prevalence:"medium", advice:"Incision and drainage if required.", followups:[] },
+
+      { name: "Sinusitis", symptoms:["sinus pain","runny nose","headache","fever","sore throat"], gender:"any", age:"any", prevalence:"high", advice:"Decongestants and clinic review.", followups:[] },
+      { name: "Allergic Rhinitis", symptoms:["runny nose","sneezing","itching","eye redness"], gender:"any", age:"any", prevalence:"high", advice:"Avoid triggers and treat with antihistamines.", followups:[] }
+    ];
+
+    // prevalence multipliers (small)
+    const prevalenceMultiplier = { high: 1.06, medium: 1.0, low: 0.95 };
+
+    // -------------------------------
+    // Helpers and UI references
+    // -------------------------------
+    function sanitizeId(s){ return s.replace(/[^a-z0-9]/gi,'-').toLowerCase(); }
+    const symptomListEl = document.getElementById('symptomList');
+    const symSearch = document.getElementById('symSearch');
+    const clearSearch = document.getElementById('clearSearch');
+    const analyzeBtn = document.getElementById('analyzeBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const saveBtn = document.getElementById('saveBtn');
+    const resultsArea = document.getElementById('resultsArea');
+    const analyzeFurtherContainer = document.getElementById('analyzeFurtherContainer');
+    const followupArea = document.getElementById('followupArea');
+    const finalBox = document.getElementById('finalBox');
+    const downloadReport = document.getElementById('downloadReport');
+   
+    const downloadResult = document.getElementById('downloadResult');
+    const genderSelect = document.getElementById('genderSelect');
+    const ageSelect = document.getElementById('ageSelect');
+    const showSymptomsList = document.getElementById('showSymptomsList');
+
+    let selectedSymptoms = new Set();
+    let lastAnalysis = null;
+    let currentCandidates = [];
+    let multiFollowAnswers = {}; // holds answers for multiple disease followups
+
+    // Render symptoms (alphabetical)
+    function renderSymptoms(filter=''){
+      const f = (filter||'').toLowerCase().trim();
+      symptomListEl.innerHTML = '';
+      if (!Array.isArray(symptoms) || symptoms.length === 0){
+        symptomListEl.innerHTML = `<div style="color:var(--muted);padding:8px">Symptoms list empty — edit the script to add your validated symptoms.</div>`;
+        analyzeBtn.textContent = 'Analyze Symptoms (0)';
+        return;
+      }
+      const list = symptoms.slice().sort((a,b)=> a.toLowerCase().localeCompare(b.toLowerCase()));
+      list.forEach(sym=>{
+        if (f && !sym.toLowerCase().includes(f)) return;
+        const id = 'sym-'+sanitizeId(sym);
+        const div = document.createElement('div'); div.className = 'symptom-item';
+        div.innerHTML = `<label style="flex:1;display:flex;align-items:center;gap:8px"><input type="checkbox" id="${id}" data-sym="${sym}" /> <span>${sym}</span></label>`;
+        symptomListEl.appendChild(div);
+        const cb = div.querySelector('input');
+        if (selectedSymptoms.has(sym)) cb.checked = true;
+        cb.addEventListener('change', (e)=>{
+          if (e.target.checked) selectedSymptoms.add(sym); else selectedSymptoms.delete(sym);
+          analyzeBtn.textContent = `Analyze Symptoms (${selectedSymptoms.size})`;
+        });
+      });
+      analyzeBtn.textContent = `Analyze Symptoms (${selectedSymptoms.size})`;
+    }
+    renderSymptoms();
+
+    // events
+    symSearch.addEventListener('input', (e)=> renderSymptoms(e.target.value));
+    clearSearch.addEventListener('click', ()=> { symSearch.value=''; renderSymptoms(); });
+    clearBtn.addEventListener('click', ()=> {
+      document.querySelectorAll('#symptomList input[type=checkbox]').forEach(cb=>cb.checked=false);
+      selectedSymptoms.clear(); analyzeBtn.textContent = 'Analyze Symptoms (0)';
+      resultsArea.innerHTML=''; analyzeFurtherContainer.innerHTML=''; followupArea.innerHTML=''; finalBox.innerHTML='';
+    });
+    analyzeBtn.addEventListener('click', runAnalysis);
+    saveBtn.addEventListener('click', saveLastAnalysis);
+    downloadReport.addEventListener('click', downloadReportPdf);
+
+    downloadResult.addEventListener('click', downloadLastResult);
+    showSymptomsList.addEventListener('click', showAllSymptomsWindow);
+
+    // Core analysis
+    function runAnalysis(){
+      if (!Array.isArray(diseases) || diseases.length === 0){
+        resultsArea.innerHTML = `<div class="less-likely">Disease database is empty.</div>`;
+        return;
+      }
+      const sel = Array.from(selectedSymptoms);
+      const gender = genderSelect.value || 'unspecified';
+      const ageGroup = ageSelect.value || 'adult';
+      if (sel.length === 0){ resultsArea.innerHTML = '<div class="less-likely">Select at least one symptom to analyze.</div>'; return; }
+
+      // score each disease
+      const scored = diseases.map(d=>{
+        if (gender === 'male' && d.gender === 'female') return {...d, matches:0, percent:0, total: d.symptoms.length, filtered:true};
+        if (gender === 'female' && d.gender === 'male') return {...d, matches:0, percent:0, total: d.symptoms.length, filtered:true};
+        if (d.age === 'child' && ageGroup === 'adult') return {...d, matches:0, percent:0, total: d.symptoms.length, filtered:true};
+        if (d.age === 'adult' && ageGroup === 'child') return {...d, matches:0, percent:0, total: d.symptoms.length, filtered:true};
+
+        const total = Array.isArray(d.symptoms) ? d.symptoms.length : 0;
+        const matches = Array.isArray(d.symptoms) ? d.symptoms.filter(s => sel.includes(s)).length : 0;
+        const multi = prevalenceMultiplier[d.prevalence] || 1.0;
+        const percent = total > 0 ? Math.round((matches / total) * 100 * multi) : 0;
+        return {...d, matches, total, percent, filtered:false};
+      });
+
+      const matched = scored.filter(s=> s.matches > 0 && !s.filtered).sort((a,b)=> b.percent - a.percent || b.matches - a.matches);
+      const probable = matched.filter(m => m.percent >= 50);
+      const lessLikely = matched.filter(m => m.percent < 50);
+
+      const main = probable.length ? probable[0] : (matched.length ? matched[0] : null);
+
+      // save
+      lastAnalysis = {
+        time: new Date().toISOString(),
+        gender, ageGroup, selected: sel,
+        main: main ? { name: main.name, percent: main.percent, matches: main.matches, total: main.total } : null,
+        probable: probable.map(p=> ({ name:p.name, percent:p.percent, matches:p.matches, total:p.total })),
+        lessLikely: lessLikely.map(l=> ({ name:l.name, percent:l.percent, matches:l.matches, total:l.total })),
+        allMatches: matched.map(m=> ({ name:m.name, percent:m.percent, matches:m.matches, total:m.total }))
+      };
+      localStorage.setItem('healthmate_v4_7_last', JSON.stringify(lastAnalysis));
+      currentCandidates = matched;
+      multiFollowAnswers = {}; // reset
+      renderResults(main, probable, lessLikely);
+      renderAnalyzeFurtherPanel(probable.slice(0,5)); // top 5 probable
+    }
+
+    // render results
+    function renderResults(main, probable, lessLikely){
+      resultsArea.innerHTML = ''; finalBox.innerHTML = ''; followupArea.innerHTML = '';
+
+      if ((!probable || probable.length === 0) && (!currentCandidates || currentCandidates.length === 0)){
+        resultsArea.innerHTML = '<div class="less-likely">No matching diseases found. Try selecting more/wider symptoms.</div>';
+        analyzeFurtherContainer.innerHTML = '';
+        return;
+      }
+
+      if (main){
+        const dbEntry = diseases.find(d=>d.name===main.name) || {};
+        const box = document.createElement('div'); box.className = 'main-disease';
+        box.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center">
+                           <div><h3 style="margin:0">${main.name}</h3><div class="muted">${main.matches}/${main.total} matched — ${main.percent}%</div></div>
+                           <div><span class="pill">Main</span></div>
+                         </div><div style="margin-top:8px;color:var(--muted)">${dbEntry.advice || ''}</div>`;
+        resultsArea.appendChild(box);
+      } else {
+        resultsArea.innerHTML = '<div class="less-likely">No disease met the probable threshold — showing closest matches.</div>';
+      }
+
+      if (probable && probable.length){
+        const h = document.createElement('div'); h.innerHTML = `<strong style="display:block;margin-top:12px">Probable Diseases (≥50% of disease symptoms)</strong>`; resultsArea.appendChild(h);
+        probable.forEach(p=>{
+          const dbEntry = diseases.find(d=>d.name===p.name) || {};
+          const card = document.createElement('div'); card.className='probable';
+          card.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center">
+                              <div><strong>${p.name}</strong><div class="muted">${p.matches}/${p.total} matched — ${p.percent}%</div></div>
+                              <div style="display:flex;gap:8px">
+                                <button class="askMore" data-name="${p.name}">Analyze Further</button>
+                                <button class="showSymptoms" data-name="${p.name}">Show Symptoms</button>
+                              </div>
+                            </div><div style="margin-top:8px;color:var(--muted)">${dbEntry.advice || ''}</div>`;
+          resultsArea.appendChild(card);
+        });
+      }
+
+      if (lessLikely && lessLikely.length){
+        const h2 = document.createElement('div'); h2.style.marginTop='12px'; h2.innerHTML = `<strong>Less Likely (matched but &lt; 50%)</strong>`; resultsArea.appendChild(h2);
+        const wrap = document.createElement('div'); wrap.className='less-likely';
+        wrap.innerHTML = lessLikely.map(l=> `<div>${l.name} — ${l.matches}/${l.total} (${l.percent}%)</div>`).join('');
+        resultsArea.appendChild(wrap);
+      }
+
+      // listeners
+      document.querySelectorAll('.askMore').forEach(btn => btn.addEventListener('click', (e)=> expandSingleFollowup(e.target.dataset.name)));
+      document.querySelectorAll('.showSymptoms').forEach(btn => btn.addEventListener('click', (e)=> showDiseaseSymptoms(e.target.dataset.name)));
+    }
+
+    // Render the multi-disease Analyze Further accordion (for topDiseases array)
+    function renderAnalyzeFurtherPanel(topDiseases){
+      analyzeFurtherContainer.innerHTML = '';
+      if (!topDiseases || topDiseases.length === 0){
+        analyzeFurtherContainer.innerHTML = '';
+        return;
+      }
+
+      let html = `<div style="margin-top:12px"><strong>Analyze Further — top ${topDiseases.length} probable conditions</strong><div style="margin-top:8px" class="small-note">Answer questions across diseases to refine ranking.</div></div>`;
+      topDiseases.forEach(td=>{
+        const d = diseases.find(x=>x.name === td.name);
+        if (!d) return;
+        // questions: use provided followups or generate from symptoms
+        const qList = (Array.isArray(d.followups) && d.followups.length) ? d.followups.slice(0,4) : d.symptoms.slice(0,4).map((s,i)=> ({ q:`Do you have ${s}?`, key:`g_${i}_${sanitizeId(s)}` }));
+        html += `<div class="accordion" id="acc-${sanitizeId(d.name)}">
+                  <div class="acc-head" data-target="${sanitizeId(d.name)}"><div><strong>${d.name}</strong> <div class="muted" style="font-size:0.9rem">${td.matches}/${td.total} matched — ${td.percent}%</div></div><div class="muted">Toggle</div></div>
+                  <div class="acc-body" id="body-${sanitizeId(d.name)}">`;
+        qList.forEach((q,qi)=>{
+          html += `<div style="margin-bottom:8px" data-qkey="${q.key}">
+                    <div>${q.q}</div>
+                    <div style="margin-top:6px;display:flex;gap:8px">
+                      <label><input type="radio" name="${sanitizeId(d.name)}_${q.key}" value="yes"> Yes</label>
+                      <label><input type="radio" name="${sanitizeId(d.name)}_${q.key}" value="no"> No</label>
+                    </div>
+                   </div>`;
+        });
+        html += `</div></div>`;
+      });
+
+      html += `<div style="margin-top:10px"><button id="refineAllBtn">Refine Diagnosis (all answers)</button> <button id="clearFBtn" class="secondary">Clear Answers</button></div>`;
+      analyzeFurtherContainer.innerHTML = html;
+
+      // attach accordion toggles
+      analyzeFurtherContainer.querySelectorAll('.acc-head').forEach(h=>{
+        h.addEventListener('click', ()=> {
+          const id = h.dataset.target;
+          const body = document.getElementById('body-'+id);
+          if (!body) return;
+          body.classList.toggle('active');
+        });
+      });
+
+      // attach refine & clear
+      document.getElementById('refineAllBtn').addEventListener('click', collectAllFollowAnswersAndRefine);
+      document.getElementById('clearFBtn').addEventListener('click', ()=> {
+        analyzeFurtherContainer.querySelectorAll('input[type=radio]').forEach(r=> r.checked = false);
+        multiFollowAnswers = {};
+      });
+
+      // scroll to analysis section
+      window.scrollTo({ top: analyzeFurtherContainer.offsetTop - 120, behavior: 'smooth' });
+    }
+
+    // Collect answers from all followup radios and refine
+    function collectAllFollowAnswersAndRefine(){
+      multiFollowAnswers = {};
+      analyzeFurtherContainer.querySelectorAll('div[data-qkey]').forEach(div=>{
+        const qkey = div.dataset.qkey;
+        // find radio checked within this div
+        const name = div.querySelector('input[type=radio]') ? div.querySelector('input[type=radio]').name : null;
+        if (!name) return;
+        const radios = analyzeFurtherContainer.querySelectorAll(`input[name="${name}"]`);
+        radios.forEach(r=>{
+          if (r.checked){
+            multiFollowAnswers[ name.split('_').slice(1).join('_') ] = r.value; // store keyed by q.key
+          }
+        });
+      });
+
+      // Also collect generically by finding all radios in container
+      analyzeFurtherContainer.querySelectorAll('input[type=radio]').forEach(r=>{
+        if (r.checked){
+          // radio name: e.g. malaria_g_0_abdominal-pain or "diseasekey_further"
+          const parts = r.name.split('_');
+          // r.name format: <diseaseslug>_<q.key>
+          const qkey = parts.slice(1).join('_');
+          multiFollowAnswers[qkey] = r.value;
+        }
+      });
+
+      // Apply followups against currentCandidates
+      applyMultiFollowups(multiFollowAnswers);
+    }
+
+    // Expand single followup panel (run when user clicks Analyze Further on a specific disease)
+    function expandSingleFollowup(name){
+      // open the corresponding accordion (if present)
+      const id = sanitizeId(name);
+      const head = document.querySelector(`#acc-${id} .acc-head`);
+      if (head) {
+        const body = document.getElementById('body-'+id);
+        if (body) body.classList.add('active');
+        window.scrollTo({ top: (head.getBoundingClientRect().top + window.scrollY) - 120, behavior: 'smooth' });
+      } else {
+        // otherwise open a single followup section below results
+        startSingleFollowup(name);
+      }
+    }
+
+    // Show disease symptoms in followup area
+    function showDiseaseSymptoms(name){
+      const d = diseases.find(x=>x.name === name);
+      if (!d) return alert('Not found');
+      followupArea.innerHTML = `<div class="followup"><strong>${d.name} — Full symptom list</strong><div style="margin-top:8px">${d.symptoms.join(', ')}</div></div>`;
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+
+    // Apply multi-disease followups and refine ranking
+    function applyMultiFollowups(answers){
+      if (!currentCandidates || currentCandidates.length === 0) return alert('Run Analysis first.');
+      const ans = {...answers};
+      // For each candidate, compute extra score
+      const refined = currentCandidates.map(d => {
+        let extra = 0;
+        const keys = (d.followups||[]).map(f=>f.key);
+        // check all answer keys
+        for (const k in ans){
+          const v = ans[k];
+          // if k matches a disease followup key exactly -> strong weight
+          if (keys.includes(k)){
+            if (v === 'yes') extra += 1.4;
+            if (v === 'no') extra -= 0.9;
+          } else {
+            // attempt to match generic keys (g_...) using substring match against disease symptoms
+            if (k.startsWith('g_')){
+              // k might be like g_0_abdominal-pain or similar: get token part after first two underscores
+              const token = k.split('_').slice(2).join('_');
+              if (token && d.symptoms.some(s => sanitizeId(s).includes(token))){
+                if (v === 'yes') extra += 0.7;
+                if (v === 'no') extra -= 0.35;
+              }
+            }
+            // severity key
+            if (k === 'severity'){
+              if (v === 'yes') extra += 0.9;
+            }
+          }
+        }
+        // combined percent relative to disease's total symptoms
+        const multi = prevalenceMultiplier[d.prevalence] || 1.0;
+        const combinedScore = d.matches + extra;
+        const combinedPercent = d.total > 0 ? Math.round((combinedScore / d.total) * 100 * multi) : 0;
+        return {...d, extra, combinedScore, combinedPercent};
+      }).sort((a,b)=> b.combinedPercent - a.combinedPercent || b.combinedScore - a.combinedScore);
+
+      // reclassify
+      const refinedProbable = refined.filter(r=> r.combinedPercent >= 50);
+      const refinedLess = refined.filter(r=> r.combinedPercent < 50 && r.matches > 0);
+      const newMain = refinedProbable.length ? refinedProbable[0] : (refined.length ? refined[0] : null);
+
+      currentCandidates = refined;
+      // render refined results
+      resultsArea.innerHTML = '';
+      if (newMain){
+        const dbEntry = diseases.find(d=>d.name === newMain.name) || {};
+        const box = document.createElement('div'); box.className='main-disease';
+        box.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center"><div><h3 style="margin:0">${newMain.name}</h3><div class="muted">${newMain.combinedPercent}% — score ${newMain.combinedScore.toFixed(1)}</div></div><div><span class="pill">Main</span></div></div><div style="margin-top:8px;color:var(--muted)">${dbEntry.advice||''}</div>`;
+        resultsArea.appendChild(box);
+      } else {
+        resultsArea.innerHTML = '<div class="less-likely">No clear refined main diagnosis.</div>';
+      }
+
+      if (refinedProbable.length){
+        const head = document.createElement('div'); head.innerHTML = `<strong style="display:block;margin-top:12px">Refined Probable Diseases</strong>`; resultsArea.appendChild(head);
+        refinedProbable.forEach(r=>{
+          const el = document.createElement('div'); el.className='probable';
+          el.innerHTML = `<div style="display:flex;justify-content:space-between"><div><strong>${r.name}</strong><div class="muted">${r.combinedPercent}% — score ${r.combinedScore.toFixed(1)}</div></div></div><div style="margin-top:8px;color:var(--muted)">${r.advice||''}</div>`;
+          resultsArea.appendChild(el);
+        });
+      }
+
+      if (refinedLess.length){
+        const h2 = document.createElement('div'); h2.style.marginTop='12px'; h2.innerHTML = `<strong>Refined Less likely</strong>`; resultsArea.appendChild(h2);
+        const wrap = document.createElement('div'); wrap.className='less-likely';
+        wrap.innerHTML = refinedLess.map(r=> `<div>${r.name} — ${r.combinedPercent}%</div>`).join('');
+        resultsArea.appendChild(wrap);
+      }
+
+      // final decision: if top beats runner by >=8 percentage points show final
+      if (currentCandidates.length > 0){
+        const top = currentCandidates[0];
+        const runner = currentCandidates[1] || null;
+        if (top && (!runner || top.combinedPercent - (runner.combinedPercent||0) >= 8)){
+          finalBox.innerHTML = `<div style="margin-top:12px;padding:12px;border-radius:10px;border:2px solid rgba(5,43,74,0.08);background:#f7fbff"><h3 style="margin:0">Final Likely Diagnosis</h3><div style="margin-top:8px"><strong>${top.name}</strong></div><div style="margin-top:6px;color:var(--muted)">Confidence: ${top.combinedPercent}% — score ${top.combinedScore.toFixed(1)}</div><div style="margin-top:8px">${top.advice||''}</div></div>`;
+        } else {
+          finalBox.innerHTML = `<div style="margin-top:12px;padding:10px;border-radius:8px;border:1px dashed #eee;color:var(--muted)">No single clear diagnosis after follow-up. Consider clinical consult and relevant tests.</div>`;
+        }
+      }
+
+      // clear the analyze further panel (but keep it if you want)
+      // analyzeFurtherContainer.innerHTML = '';
+      // reset answers
+      multiFollowAnswers = {};
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+
+    // start single followup (if needed)
+    function startSingleFollowup(name){
+      const d = diseases.find(x=>x.name === name);
+      if (!d) return alert('Follow-ups not available for ' + name);
+      followupArea.innerHTML = '';
+      const qs = (Array.isArray(d.followups) && d.followups.length) ? d.followups.slice(0,4) : d.symptoms.slice(0,4).map((s,i)=> ({q:`Do you have ${s}?`, key:`g_${i}_${sanitizeId(s)}`}));
+
+      let html = `<div class="followup"><strong>Analyze Further — ${d.name}</strong><div style="margin-top:10px">`;
+      qs.forEach(q=>{
+        html += `<div style="margin-bottom:8px" data-qkey="${q.key}"><div>${q.q}</div><div style="margin-top:6px;display:flex;gap:8px"><label><input type="radio" name="${q.key}" value="yes"> Yes</label><label><input type="radio" name="${q.key}" value="no"> No</label></div></div>`;
+      });
+      html += `</div><div style="margin-top:10px"><button id="submitSingleFollow">Submit</button> <button id="cancelSingleFollow" class="secondary">Cancel</button></div></div>`;
+      followupArea.innerHTML = html;
+      document.getElementById('cancelSingleFollow').addEventListener('click', ()=> followupArea.innerHTML='');
+      document.getElementById('submitSingleFollow').addEventListener('click', ()=>{
+        const answers = {};
+        qs.forEach(q=> {
+          const sel = followupArea.querySelector(`input[name="${q.key}"]:checked`);
+          if (sel) answers[q.key] = sel.value;
+        });
+        applyMultiFollowups(answers); // reuse the same refine function
+      });
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+
+    // -------------------------------
+    // Save  / Report
+    // -------------------------------
+    function saveLastAnalysis(){
+      if (!lastAnalysis) return alert('No analysis to save yet.');
+      const key = 'healthmate_v4_7_saved_' + Date.now();
+      localStorage.setItem(key, JSON.stringify(lastAnalysis));
+      alert('Saved locally.');
+    }
+
+
+
+    function downloadLastResult(){
+      const stored = JSON.parse(localStorage.getItem('healthmate_v4_7_last'));
+      if (!stored) return alert('No saved analysis. Run Analyze first.');
+      const blob = new Blob([JSON.stringify(stored, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = 'healthmate_v4_7_last.json'; a.click(); URL.revokeObjectURL(url);
+    }
+
+    function downloadReportPdf(){
+      const stored = JSON.parse(localStorage.getItem('healthmate_v4_7_last'));
+      if (!stored) return alert('Run an analysis first to generate a report.');
+      const doc = buildReportHtml(stored);
+      const w = window.open('', '_blank');
+      w.document.write(doc);
+      w.document.close();
+      setTimeout(()=>{ try{ w.focus(); w.print(); } catch(e){} }, 600);
+    }
+
+    function buildReportHtml(stored){
+      const date = new Date(stored.time).toLocaleString();
+      const selectedList = stored.selected.map(s=> `<li>${s}</li>`).join('');
+      const probableHtml = stored.probable.map(p=> `<div style="margin-bottom:8px"><strong>${p.name}</strong> — ${p.matches}/${p.total} (${p.percent}%)</div>`).join('') || '<div style="color:#6b7280">None</div>';
+      const lessHtml = stored.lessLikely.map(l=> `<div style="margin-bottom:6px">${l.name} — ${l.matches}/${l.total} (${l.percent}%)</div>`).join('') || '<div style="color:#6b7280">None</div>';
+      const mainHtml = stored.main ? `<div style="padding:12px;border-radius:8px;border:1px solid #eef6fb;background:#f7fbff"><h3 style="margin:0">${stored.main.name}</h3><div style="color:#6b7280;margin-top:6px">${stored.main.matches}/${stored.main.total} matched — ${stored.main.percent}%</div></div>` : '<div style="color:#6b7280">No main diagnosis</div>';
+
+      return `<!doctype html><html><head><meta charset="utf-8"/><title>HealthMate Report</title><style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+        body{font-family:Poppins,Arial;margin:0;color:#071428}
+        .header{background:linear-gradient(90deg,#052b4a,#0d4568);color:#fff;padding:18px 24px;display:flex;justify-content:space-between;align-items:center}
+        .logo{width:44px;height:44px;border-radius:8px;background:#c59a2b;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700}
+        .container{padding:24px}
+        h1{margin:0;font-size:20px}
+        .section{margin-top:18px}
+        .box{padding:12px;border-radius:8px;border:1px solid #eef6fb;background:#fff}
+        .muted{color:#6b7280}
+        footer{margin-top:26px;color:#6b7280;font-size:12px;text-align:right}
+        /* printing color adjust */
+        @media print{
+          *{ -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+        }
+      </style></head><body>
+      <div class="header"><div style="display:flex;gap:12px;align-items:center"><div class="logo">S</div><div><h1>HealthMate — Clinical Report</h1><div style="opacity:0.9">Sparks Networks</div></div></div><div style="text-align:right">Date: ${date}</div></div>
+      <div class="container">
+        <div class="section"><h2>Patient Details</h2><div class="box"><strong>Gender:</strong> ${stored.gender} &nbsp; | &nbsp; <strong>Age group:</strong> ${stored.ageGroup}</div></div>
+        <div class="section"><h2>Selected Symptoms</h2><div class="box"><ul>${selectedList}</ul></div></div>
+        <div class="section"><h2>Probable Diseases</h2><div class="box">${probableHtml}</div></div>
+        <div class="section"><h2>Less Likely</h2><div class="box">${lessHtml}</div></div>
+        <div class="section"><h2>Primary Suggestion</h2><div class="box">${mainHtml}</div></div>
+        <div class="section"><h2>Note</h2><div class="box muted">This tool gives possibilities based on symptom matching and progressive follow-up. It is not a substitute for professional medical diagnosis. Seek evaluation for confirmation.</div></div>
+        <footer>Generated by HealthMate — Sparks Networks © 2025</footer>
+      </div></body></html>`;
+    }
+
+    // Utility - show all symptoms
+    function showAllSymptomsWindow(){
+      const listHtml = symptoms.slice().sort((a,b)=> a.toLowerCase().localeCompare(b.toLowerCase())).map(s=> `<li>${s}</li>`).join('');
+      const html = `<!doctype html><html><head><meta charset="utf-8"/><title>All Symptoms</title><style>body{font-family:Poppins,Arial;padding:20px}ul{columns:2;}</style></head><body><h1>All Symptoms (A → Z)</h1><ul>${listHtml}</ul></body></html>`;
+      const w = window.open('', '_blank'); w.document.write(html); w.document.close();
+    }
+
+    // Load last analysis if present
+    (function loadLast(){
+      try{
+        const v = JSON.parse(localStorage.getItem('healthmate_v4_7_last'));
+        if (v){
+          if (v.gender) genderSelect.value = v.gender;
+          if (v.ageGroup) ageSelect.value = v.ageGroup;
+          if (Array.isArray(v.selected)) v.selected.forEach(s=> selectedSymptoms.add(s));
+          renderSymptoms();
+          setTimeout(()=> {
+            v.selected.forEach(s=>{
+              const el = document.getElementById('sym-'+sanitizeId(s));
+              if (el) el.checked = true;
+            });
+            analyzeBtn.textContent = 'Analyze Symptoms (' + selectedSymptoms.size + ')';
+          }, 200);
+        }
+      } catch(e){}
+    })();
+
+  </script>
+</body>
+</html>
