@@ -525,7 +525,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.addEventListener('copy', function(e){ e.preventDefault(); });
 
     /*****************************************************************
-     * HealthMate v4.7 — Deep Diagnostic Intelligence
+     * Mediora v4.7 — Deep Diagnostic Intelligence
      * - Multi-disease follow-up (top 5 probable)
      * - refined scoring across multiple diseases simultaneously
      * - uses demo dataset (≈60 diseases + 150 symptoms)
@@ -743,7 +743,7 @@ document.addEventListener("DOMContentLoaded", () => {
         lessLikely: lessLikely.map(l=> ({ name:l.name, percent:l.percent, matches:l.matches, total:l.total })),
         allMatches: matched.map(m=> ({ name:m.name, percent:m.percent, matches:m.matches, total:m.total }))
       };
-      localStorage.setItem('healthmate_v4_7_last', JSON.stringify(lastAnalysis));
+      localStorage.setItem('Mediora_v4_7_last', JSON.stringify(lastAnalysis));
       currentCandidates = matched;
       multiFollowAnswers = {}; // reset
       renderResults(main, probable, lessLikely);
@@ -1026,7 +1026,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // -------------------------------
     function saveLastAnalysis(){
       if (!lastAnalysis) return alert('No analysis to save yet.');
-      const key = 'healthmate_v4_7_saved_' + Date.now();
+      const key = 'Mediora_v4_7_saved_' + Date.now();
       localStorage.setItem(key, JSON.stringify(lastAnalysis));
       alert('Saved locally.');
     }
@@ -1034,15 +1034,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     function downloadLastResult(){
-      const stored = JSON.parse(localStorage.getItem('healthmate_v4_7_last'));
+      const stored = JSON.parse(localStorage.getItem('Mediora_v4_7_last'));
       if (!stored) return alert('No saved analysis. Run Analyze first.');
       const blob = new Blob([JSON.stringify(stored, null, 2)], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
-      const a = document.createElement('a'); a.href = url; a.download = 'healthmate_v4_7_last.json'; a.click(); URL.revokeObjectURL(url);
+      const a = document.createElement('a'); a.href = url; a.download = 'Mediora_v4_7_last.json'; a.click(); URL.revokeObjectURL(url);
     }
 
     function downloadReportPdf(){
-      const stored = JSON.parse(localStorage.getItem('healthmate_v4_7_last'));
+      const stored = JSON.parse(localStorage.getItem('Mediora_v4_7_last'));
       if (!stored) return alert('Run an analysis first to generate a report.');
       const doc = buildReportHtml(stored);
       const w = window.open('', '_blank');
@@ -1058,7 +1058,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const lessHtml = stored.lessLikely.map(l=> `<div style="margin-bottom:6px">${l.name} — ${l.matches}/${l.total} (${l.percent}%)</div>`).join('') || '<div style="color:#6b7280">None</div>';
       const mainHtml = stored.main ? `<div style="padding:12px;border-radius:8px;border:1px solid #eef6fb;background:#f7fbff"><h3 style="margin:0">${stored.main.name}</h3><div style="color:#6b7280;margin-top:6px">${stored.main.matches}/${stored.main.total} matched — ${stored.main.percent}%</div></div>` : '<div style="color:#6b7280">No main diagnosis</div>';
 
-      return `<!doctype html><html><head><meta charset="utf-8"/><title>HealthMate Report</title><style>
+      return `<!doctype html><html><head><meta charset="utf-8"/><title>Mediora Report</title><style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
         body{font-family:Poppins,Arial;margin:0;color:#071428}
         .header{background:linear-gradient(90deg,#052b4a,#0d4568);color:#fff;padding:18px 24px;display:flex;justify-content:space-between;align-items:center}
@@ -1074,7 +1074,7 @@ document.addEventListener("DOMContentLoaded", () => {
           *{ -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
         }
       </style></head><body>
-      <div class="header"><div style="display:flex;gap:12px;align-items:center"><div class="logo">S</div><div><h1>HealthMate — Clinical Report</h1><div style="opacity:0.9">Sparks Networks</div></div></div><div style="text-align:right">Date: ${date}</div></div>
+      <div class="header"><div style="display:flex;gap:12px;align-items:center"><div class="logo">S</div><div><h1>Mediora — Clinical Report</h1><div style="opacity:0.9">Sparks Networks</div></div></div><div style="text-align:right">Date: ${date}</div></div>
       <div class="container">
         <div class="section"><h2>Patient Details</h2><div class="box"><strong>Gender:</strong> ${stored.gender} &nbsp; | &nbsp; <strong>Age group:</strong> ${stored.ageGroup}</div></div>
         <div class="section"><h2>Selected Symptoms</h2><div class="box"><ul>${selectedList}</ul></div></div>
@@ -1082,7 +1082,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="section"><h2>Less Likely</h2><div class="box">${lessHtml}</div></div>
         <div class="section"><h2>Primary Suggestion</h2><div class="box">${mainHtml}</div></div>
         <div class="section"><h2>Note</h2><div class="box muted">This tool gives possibilities based on symptom matching and progressive follow-up. It is not a substitute for professional medical diagnosis. Seek evaluation for confirmation.</div></div>
-        <footer>Generated by HealthMate — Sparks Networks © 2025</footer>
+        <footer>Generated by Mediora — Sparks Networks © 2025</footer>
       </div></body></html>`;
     }
 
@@ -1096,7 +1096,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Load last analysis if present
     (function loadLast(){
       try{
-        const v = JSON.parse(localStorage.getItem('healthmate_v4_7_last'));
+        const v = JSON.parse(localStorage.getItem('Mediora_v4_7_last'));
         if (v){
           if (v.gender) genderSelect.value = v.gender;
           if (v.ageGroup) ageSelect.value = v.ageGroup;
@@ -1116,6 +1116,7 @@ document.addEventListener("DOMContentLoaded", () => {
   </script>
 </body>
 </html>
+
 
 
 
